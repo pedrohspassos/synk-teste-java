@@ -37,7 +37,7 @@ public class ProdutoController {
     public Produto salvarProduto(@RequestBody Produto produto) {
         return produtoService.salvarProduto(produto);
     }
-
+//
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
 //        if (produtoService.buscarProdutoPorId(id).isPresent()) {
