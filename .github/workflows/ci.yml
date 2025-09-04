@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # permite rodar manualmente também
+  workflow_dispatch: 
 
 jobs:
   check-and-generate-tests:
