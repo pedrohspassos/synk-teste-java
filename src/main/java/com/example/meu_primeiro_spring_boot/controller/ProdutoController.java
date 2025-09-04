@@ -37,16 +37,13 @@ public class ProdutoController {
     public Produto salvarProduto(@RequestBody Produto produto) {
         return produtoService.salvarProduto(produto);
     }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
-//        if (produtoService.buscarProdutoPorId(id).isPresent()) {
-//            produtoService.excluirProduto(id);
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
+
+            produtoService.excluirProduto(id);
+            return ResponseEntity.noContent().build();
+
+    }
 
 }
