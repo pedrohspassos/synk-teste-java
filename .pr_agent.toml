@@ -1,0 +1,26 @@
+[config]
+response_language = "pt-BR"
+
+[github_app]
+pr_commands = [
+    "/describe",
+    "/review",
+    # dispara testes automaticamente
+    "/test"
+]
+
+# Opcional: instruções extras ao gerador de testes
+[pr_test]
+# número padrão de testes
+num_tests = 3
+# evitar mocks quando possível
+avoid_mocks = true
+# exemplo de orientação adicional
+extra_instructions = """\
+- Priorize cobrir fluxos críticos alterados neste PR
+- Use nomes de casos de teste descritivos em português
+"""
+
+# Ajuste do review para verificar existência de testes
+[pr_reviewer]
+require_tests_review = true
