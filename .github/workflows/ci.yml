@@ -38,7 +38,7 @@ jobs:
 
       - name: Gerar testes automaticamente
         if: env.no_tests == 'true'
-        run: qodo-gen generate-tests --path ./src/main/java/service --output ./src/test/java/se
+        run: qodo-gen generate-tests --path ./src/main/java/com/example/meu_primeiro_spring_boot/service --output ./src/test/java/com/example/meu_primeiro_spring_boot/service
 
       - name: Commit e PR automático
         if: env.no_tests == 'true'
