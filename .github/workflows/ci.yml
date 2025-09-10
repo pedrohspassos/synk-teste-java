@@ -1,0 +1,52 @@
+name: Geração Automática de Testes com Qodo Gen
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+
+jobs:
+  check-and-generate-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências do projeto
+        run: ./mvnw clean compile -q
+
+      - name: Rodar testes existentes
+        run: ./mvnw test || echo "Testes falharam ou não existem"
+
+      - name: Gerar relatório de cobertura
+        run: ./mvnw jacoco:report || echo "Sem relatório de cobertura"
+
+      - name: Checar se há testes
+        id: check-tests
+        run: |
+          if [ -z "$(find src/test/java -name '*.java')" ]; then
+            echo "no_tests=true" >> $GITHUB_ENV
+          else
+            echo "no_tests=false" >> $GITHUB_ENV
+          fi
+
+      - name: Instalar Qodo Gen CLI
+        if: env.no_tests == 'true'
+        run: npm install -g qodo-gen-cli
+
+      - name: Gerar testes automaticamente
+        if: env.no_tests == 'true'
+        run: qodo-gen generate-tests --path ./src/main/java/com/example/meu_primeiro_spring_boot/service --output ./src/test/java/com/example/meu_primeiro_spring_boot/service
+
+      - name: Commit e PR automático
+        if: env.no_tests == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: qodo-gen/tests-auto
+          title: "Testes gerados automaticamente"
+          commit-message: "Adiciona testes unitários gerados pelo Qodo Gen"
+          body: |
+            ⚙️ Este PR foi criado automaticamente pela pipeline.
+            Verifique os testes gerados antes do merge.
